@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjx.dao.UserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="com.zjx.domain.SysUser" id="BaseResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="id" jdbcType="INTEGER"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="findByUserName" parameterType="java.lang.String" resultType="com.zjx.domain.SysUser">
+      SELECT id, username, password from sys_user where username = #{username}
+    </select>
+
+    <select id="findUserRole" parameterType="java.lang.Integer" resultType="com.zjx.domain.SysRole">
+        select
+          a.id as id,
+          a.role_name as roleName
+        from sys_role a, sys_user b, sys_user_role c
+        where a.id = c.role_id
+        and b.id = c.user_id
+        and b.id = #{id}
+    </select>
+
+</mapper>
