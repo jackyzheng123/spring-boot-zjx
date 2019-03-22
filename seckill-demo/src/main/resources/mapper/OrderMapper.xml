@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjx.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="com.zjx.domain.Order" id="BaseResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="goodsPrice" column="goods_price" jdbcType="DECIMAL"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="queryOrders" parameterType="java.util.Map" resultType="com.zjx.domain.Order">
+        select
+          id,
+          user_name as userName,
+          goods_name as goodsName,
+          goods_price as goodsPrice,
+          num,
+          create_time as createTime
+        from `order`
+        <where>
+            <if test="userName!=null and userName!=''">
+                user_name = #{userName}
+            </if>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name = #{goodsName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addOrder" parameterType="com.zjx.domain.Order">
+        insert into `order`(`user_name`, `goods_name`, `goods_price`, `num`) values (#{userName}, #{goodsName}, #{goodsPrice}, #{num})
+    </insert>
+    
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.zjx.domain.Order">
+        select
+          id,
+          user_name as userName,
+          goods_name as goodsName,
+          goods_price as goodsPrice,
+          num,
+          create_time as createTime
+        from `order`
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from `order` where id = #{id}
+    </delete>
+
+    <update id="updateById" parameterType="com.zjx.domain.Order">
+        update `order`
+        <set>
+            <if test="userName!=null and userName!=''">
+                user_name = #{userName},
+            </if>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsPrice!=null">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test="num!=null">
+                num = #{num},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
