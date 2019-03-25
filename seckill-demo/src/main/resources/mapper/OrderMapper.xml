@@ -24,10 +24,10 @@
         from `order`
         <where>
             <if test="userName!=null and userName!=''">
-                user_name = #{userName}
+                and user_name = #{userName}
             </if>
             <if test="goodsName!=null and goodsName!=''">
-                goods_name = #{goodsName}
+                and goods_name = #{goodsName}
             </if>
         </where>
     </select>
