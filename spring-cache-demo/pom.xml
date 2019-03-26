@@ -8,12 +8,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-cache-demo</name>
     <description>Spring Cache Demo</description>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>spring.boot.zjx</groupId>
         <artifactId>spring-boot-zjx</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
     <dependencies>
@@ -59,7 +60,7 @@
         <!--切换缓存 redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-redis</artifactId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
     </dependencies>

@@ -8,6 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-zjx</name>
     <description>Spring Boot Demo</description>
+    <packaging>pom</packaging>
 
     <properties>
         <java.version>1.8</java.version>
