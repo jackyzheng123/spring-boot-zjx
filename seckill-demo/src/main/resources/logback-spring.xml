@@ -31,6 +31,7 @@
 				<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 			</encoder>
 		</appender>
+
 		<appender name="DAILY_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 			<encoder>
 				<pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -40,10 +41,28 @@
 				<fileNamePattern>${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
 			</rollingPolicy>
 		</appender>
+
+
+		<springProperty scope="context" name="appName" source="logback.appName"/>
+		<springProperty scope="context" name="logstashUrl" source="logback.logstash.url"/>
+		<springProperty scope="context" name="logstashPort" source="logback.logstash.port"/>
+		<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+			<param name="Encoding" value="UTF-8"/>
+			<remoteHost>${logstashUrl}</remoteHost>
+			<port>${logstashPort}</port>
+			<!--<destination>localhost:9601</destination>-->
+			<!-- encoder必须配置,有多种可选 -->
+			<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >
+				<!-- 作用是指定创建索引的名字时用，并且在生成的文档中会多了这个字段  -->
+				<customFields>{"appname":"${appName}"}</customFields>
+			</encoder>
+		</appender>
+
 		<logger name="com.spek" level="info" />
 		<root level="info">
 			<appender-ref ref="CONSOLE-APPENDER"/>
 			<appender-ref ref="DAILY_ROLLING_FILE"/>
+			<appender-ref ref="LOGSTASH" />
 		</root>
 	</springProfile>
 
@@ -61,6 +80,7 @@
 				</timeBasedFileNamingAndTriggeringPolicy>
 			</rollingPolicy>
 		</appender>
+
 		<logger name="com.spek" level="DEBUG" />
 		<root level="WARN">
 			<appender-ref ref="SIZED_ROLLING_FILE"/>

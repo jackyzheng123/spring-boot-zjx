@@ -6,10 +6,10 @@ spring:
     name: seckill
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://192.168.204.128:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: zjx123
+    password: zhengjiaxing
   redis:
    # database: 0
     host: 192.168.204.128
@@ -34,3 +34,9 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
   returnPageInfo: check
+
+logback:
+  appName: seckill-demo
+  logstash:
+    url: 192.168.204.128
+    port: 9601

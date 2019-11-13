@@ -25,6 +25,7 @@
         <module>spring-cache-demo</module>
         <module>spring-security-demo</module>
 		<module>seckill-demo</module>
+        <module>rabbitmq-demo</module>
     </modules>
 
     <dependencies>
