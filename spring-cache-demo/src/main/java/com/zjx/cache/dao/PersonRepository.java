@@ -1,7 +1,10 @@
 package com.zjx.cache.dao;
 
 import com.zjx.cache.entity.Person;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Repository;
 
 /**
  * @Description
@@ -9,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date 2019/1/24 16:07
  * @Version V1.0
  **/
-public interface PersonRepository extends JpaRepository<Person, Integer> {
+@Repository
+public interface PersonRepository extends BaseRepository<Person, Integer> {
 
 }

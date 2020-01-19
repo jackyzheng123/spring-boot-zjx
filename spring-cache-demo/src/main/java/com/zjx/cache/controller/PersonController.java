@@ -1,9 +1,14 @@
 package com.zjx.cache.controller;
 
+import com.zjx.cache.dto.PageQueryDTO;
+import com.zjx.cache.dto.PersonQueryDTO;
 import com.zjx.cache.entity.Person;
 import com.zjx.cache.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,7 +27,7 @@ public class PersonController {
 
     @PostMapping
     public void save(@RequestBody Person person){
-        personService.save(person);
+        personService.add(person);
     }
 
     @GetMapping("/{id}")
@@ -32,6 +37,16 @@ public class PersonController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id){
-        personService.delete(id);
+        personService.remove(id);
+    }
+
+    @PutMapping
+    public void update(@RequestBody Person person){
+        personService.modify(person);
+    }
+
+    @GetMapping
+    public Page<Person> getPersonPage(@RequestBody PersonQueryDTO dto){
+        return personService.getPersonPage(dto);
     }
 }
