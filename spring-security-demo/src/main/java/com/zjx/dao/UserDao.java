@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface UserDao {
-    public SysUser findByUserName(String username);
+
+    SysUser findByUserName(String username);
 
     List<SysRole> findUserRole(Integer id);
 }

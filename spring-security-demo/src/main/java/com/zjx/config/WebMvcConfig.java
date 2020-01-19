@@ -35,7 +35,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * ¿çÓòCORSÅäÖÃ
+     * è·¨åŸŸCORSé…ç½®
      *
      * @param registry
      */
