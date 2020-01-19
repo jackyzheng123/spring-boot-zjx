@@ -22,9 +22,10 @@ import java.util.concurrent.Executor;
 @Component
 @EnableScheduling
 public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
-    /*
+    /**
      * 并行任务
      */
+    @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         TaskScheduler taskScheduler = taskScheduler();
         taskRegistrar.setTaskScheduler(taskScheduler);
@@ -46,17 +47,19 @@ public class ScheduleConfig implements SchedulingConfigurer, AsyncConfigurer {
         return scheduler;
     }
 
-    /*
+    /**
      * 异步任务
      */
+    @Override
     public Executor getAsyncExecutor() {
         Executor executor = taskScheduler();
         return executor;
     }
 
-    /*
+    /**
      * 异步任务 异常处理
      */
+    @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new SimpleAsyncUncaughtExceptionHandler();
     }

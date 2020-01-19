@@ -1,18 +1,18 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   application:
     name: seckill
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://192.168.160.128:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: zhengjiaxing
+    password: zjx123
   redis:
    # database: 0
-    host: 192.168.204.128
+    host: 192.168.160.128
     port: 6379
     password: zjx123    # 密码（默认为空）
     timeout: 6000  # 连接超时时长（毫秒）
@@ -38,5 +38,5 @@ pagehelper:
 logback:
   appName: seckill-demo
   logstash:
-    url: 192.168.204.128
-    port: 9601
+    url: 192.168.160.128
+    port: 9600

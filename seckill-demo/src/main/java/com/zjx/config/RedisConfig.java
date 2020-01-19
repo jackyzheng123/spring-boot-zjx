@@ -46,7 +46,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://192.168.204.128:6379").setPassword("zjx123");
+        config.useSingleServer().setAddress("redis://192.168.160.128:6379").setPassword("zjx123");
         return Redisson.create(config);
     }
 
