@@ -1,5 +1,7 @@
 package com.sleb.springcloud.rabbitmqproducerdemo.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sleb.springcloud.rabbitmqproducerdemo.config.RabbitConfig;
 import com.sleb.springcloud.rabbitmqproducerdemo.domain.PolicyDataEx;
 import com.sleb.springcloud.rabbitmqproducerdemo.domain.PolicyModal;
@@ -7,8 +9,12 @@ import com.sleb.springcloud.rabbitmqproducerdemo.util.DateUtils;
 import com.sleb.springcloud.rabbitmqproducerdemo.util.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,8 +26,11 @@ import java.time.LocalDateTime;
  **/
 @Service
 public class AcceptProducerServiceImpl implements AcceptProducerService {
+
     private final Logger logger = LoggerFactory.getLogger(AcceptProducerServiceImpl.class);
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -52,7 +61,56 @@ public class AcceptProducerServiceImpl implements AcceptProducerService {
         //rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         //PolicyModal类的全限名称（包名+类名）会带入到mq, 所以消费者服务一边必须有同样全限名称的类，否则接收会失败。
 
-        rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_SLEB_ACCEPT, RabbitConfig.ROUTING_KEY_ACCEPT, policyModal, policyDataEx);
+        try {
+            rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_SLEB, RabbitConfig.ROUTING_KEY_SLEB, policyModal, policyDataEx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    @Override
+    public void sendDlxMsg(PolicyModal policyModal) {
+        logger.info("开始发送时间: " + DateUtils.localDateTimeToString(LocalDateTime.now())
+                + ",保单号: " + policyModal.getPolicyNo()
+                + ",发送内容: " + policyModal.toString());
+
+        policyModal.setSendtime(System.currentTimeMillis());
+        PolicyDataEx policyDataEx = new PolicyDataEx();
+        policyDataEx.setId(policyModal.getPolicyNo());
+        policyDataEx.setMessage(policyModal.toString());
+        policyDataEx.setSendtime(System.currentTimeMillis());
+
+        try {
+            rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_SLEB_DLX, RabbitConfig.ROUTING_KEY_SLEB_DLX, policyModal, policyDataEx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendDelayMsg(PolicyModal policyModal) {
+        logger.info("开始发送时间: " + DateUtils.localDateTimeToString(LocalDateTime.now())
+                + ",保单号: " + policyModal.getPolicyNo()
+                + ",发送内容: " + policyModal.toString());
+
+        policyModal.setSendtime(System.currentTimeMillis());
+        PolicyDataEx policyDataEx = new PolicyDataEx();
+        policyDataEx.setId(policyModal.getPolicyNo());
+        policyDataEx.setMessage(policyModal.toString());
+        policyDataEx.setSendtime(System.currentTimeMillis());
+
+        Message message = null;
+        try {
+            message = MessageBuilder
+                    .withBody(objectMapper.writeValueAsBytes(policyModal))
+                    .setDeliveryMode(MessageDeliveryMode.PERSISTENT)
+                    //.setExpiration(String.valueOf(60000)) // 60秒过期
+                    .build();
+
+            this.rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE_SLEB_DELAY, RabbitConfig.ROUTING_KEY_SLEB_DELAY, message, policyDataEx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

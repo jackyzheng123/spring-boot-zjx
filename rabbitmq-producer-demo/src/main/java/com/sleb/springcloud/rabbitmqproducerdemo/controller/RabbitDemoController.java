@@ -26,10 +26,35 @@ public class RabbitDemoController {
         }
         return "send end";
     }
+
     @GetMapping("/sendsing")
     public String sendSingle() {
         try {
             acceptProducerService.sendMessage(new PolicyModal(String.valueOf(91), "laza" + 91, 91, 91, System.currentTimeMillis()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        return "send end";
+    }
+
+    @GetMapping("/sendDlx")
+    public String sendDlx() {
+        try {
+            acceptProducerService.sendDlxMsg(new PolicyModal(String.valueOf(92), "laza" + 92, 92, 92, System.currentTimeMillis()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        return "send end";
+    }
+
+    @GetMapping("/sendDelay")
+    public String sendDelay() {
+        try {
+            acceptProducerService.sendDelayMsg(new PolicyModal(String.valueOf(93), "laza" + 93, 93, 93, System.currentTimeMillis()));
 
         } catch (Exception e) {
             e.printStackTrace();
