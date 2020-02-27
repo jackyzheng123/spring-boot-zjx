@@ -5,10 +5,10 @@ spring:
     name: rabbitmq-producer-demo
   rabbitmq:
     # 单点配置
-    host: 192.168.160.128
-    port: 5672
+    # host: 192.168.160.128
+    # port: 5672
     # 集群的配置
-    #addresses: 10.156.13.92:5672,10.156.13.93:5672,10.156.13.94:5672
+    addresses: 192.168.160.128:5672,192.168.160.128:5673,192.168.160.128:5674
     username: admin  #guest是缺省，只能localhost网络访问，要访问远程网络，需要创建用户
     password: 123456
     # 像mysql拥有数据库的概念并且可以指定用户对库和表等操作的权限。那RabbitMQ呢？RabbitMQ也有类似的权限管理。
