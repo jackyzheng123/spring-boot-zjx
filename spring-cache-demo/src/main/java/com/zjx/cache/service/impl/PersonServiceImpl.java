@@ -64,8 +64,8 @@ public class PersonServiceImpl extends BaseServiceImpl<Person, Integer, PersonRe
     @Cacheable(value = "person", keyGenerator = "iKeyGenerator")
     public Page<Person> getPersonPage(PersonQueryDTO dto) {
         PageQueryDTO.Order order = dto.getOrder();
-        Sort sort = new Sort(order.getIsDesc() ? Sort.Direction.DESC : Direction.ASC, order.getOrderBy());
-        Pageable pageable = new PageRequest(dto.getPageNum(), dto.getPageSize(), sort);
+        Sort sort = Sort.by(order.getIsDesc() ? Sort.Direction.DESC : Direction.ASC, order.getOrderBy());
+        Pageable pageable = PageRequest.of(dto.getPageNum(), dto.getPageSize(), sort);
         return personRepository.findAll(PersonSpecification.findPersonPage(dto), pageable);
     }
 }
