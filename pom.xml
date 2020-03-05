@@ -28,6 +28,7 @@
         <module>rabbitmq-demo</module>
         <module>rabbitmq-consumer-demo</module>
         <module>rabbitmq-producer-demo</module>
+        <module>kafka-demo</module>
     </modules>
 
     <dependencies>

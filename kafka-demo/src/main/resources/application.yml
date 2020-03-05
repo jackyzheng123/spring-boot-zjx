@@ -1,0 +1,23 @@
+server:
+  port: 8781
+spring:
+  application:
+    name: kafka-demo
+  kafka:
+    bootstrap-servers: 192.168.160.128:9092
+    listener:
+      missing-topics-fatal: false
+    producer:
+      acks: 1
+      retries: 0
+      batch-size: 16384
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+    consumer:
+      group-id: testGroup
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
